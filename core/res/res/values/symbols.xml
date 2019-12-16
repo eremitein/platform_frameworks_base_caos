@@ -1842,6 +1842,7 @@
   <java-symbol type="string" name="global_actions" />
   <java-symbol type="string" name="global_action_power_off" />
   <java-symbol type="string" name="global_action_restart" />
+  <java-symbol type="string" name="global_action_recovery" />
   <java-symbol type="string" name="global_actions_airplane_mode_off_status" />
   <java-symbol type="string" name="global_actions_airplane_mode_on_status" />
   <java-symbol type="string" name="global_actions_toggle_airplane_mode" />
@@ -3211,6 +3212,7 @@
 
   <!-- Global actions icons -->
   <java-symbol type="drawable" name="ic_restart" />
+  <java-symbol type="drawable" name="ic_recovery" />
   <java-symbol type="drawable" name="ic_screenshot" />
   <java-symbol type="drawable" name="ic_faster_emergency" />
   <java-symbol type="drawable" name="ic_media_seamless" />

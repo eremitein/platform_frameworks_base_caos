@@ -43,6 +43,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemProperties;
@@ -132,6 +133,7 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
     private static final String GLOBAL_ACTION_KEY_LOCKDOWN = "lockdown";
     private static final String GLOBAL_ACTION_KEY_VOICEASSIST = "voiceassist";
     private static final String GLOBAL_ACTION_KEY_ASSIST = "assist";
+    private static final String GLOBAL_ACTION_KEY_RECOVERY = "recovery";
     private static final String GLOBAL_ACTION_KEY_RESTART = "restart";
     private static final String GLOBAL_ACTION_KEY_LOGOUT = "logout";
     private static final String GLOBAL_ACTION_KEY_EMERGENCY = "emergency";
@@ -381,6 +383,8 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                 mItems.add(getVoiceAssistAction());
             } else if (GLOBAL_ACTION_KEY_ASSIST.equals(actionKey)) {
                 mItems.add(getAssistAction());
+            } else if (GLOBAL_ACTION_KEY_RECOVERY.equals(actionKey)) {
+                mItems.add(new RecoveryAction());
             } else if (GLOBAL_ACTION_KEY_RESTART.equals(actionKey)) {
                 mItems.add(new RestartAction());
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
@@ -568,6 +572,28 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
             mContext.startActivityAsUser(intent, UserHandle.CURRENT);
         }
     }
+
+    private final class RecoveryAction extends SinglePressAction {
+        private RecoveryAction() {
+            super(R.drawable.ic_recovery, R.string.global_action_recovery);
+        }
+
+        @Override
+        public boolean showDuringKeyguard() {
+            return false;
+        }
+
+        @Override
+        public boolean showBeforeProvisioning() {
+            return true;
+        }
+
+        @Override
+        public void onPress() {
+            mWindowManagerFuncs.rebootRecovery(false, PowerManager.REBOOT_RECOVERY);
+        }
+    }
+
 
     private final class RestartAction extends SinglePressAction implements LongPressAction {
         private RestartAction() {

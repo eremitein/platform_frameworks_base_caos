@@ -4682,6 +4682,22 @@ public final class PowerManagerService extends SystemService
             }
         }
 
+        @Override // Binder call
+        public void rebootRecovery(boolean confirm, String reason, boolean wait) {
+            mContext.enforceCallingOrSelfPermission(android.Manifest.permission.REBOOT, null);
+            if (PowerManager.REBOOT_RECOVERY.equals(reason)
+                    || PowerManager.REBOOT_RECOVERY_UPDATE.equals(reason)) {
+                mContext.enforceCallingOrSelfPermission(android.Manifest.permission.RECOVERY, null);
+            }
+
+            final long ident = Binder.clearCallingIdentity();
+            try {
+                shutdownOrRebootInternal(HALT_MODE_REBOOT, confirm, reason, wait);
+            } finally {
+                Binder.restoreCallingIdentity(ident);
+            }
+        }
+
         /**
          * Reboots the device into safe mode
          *

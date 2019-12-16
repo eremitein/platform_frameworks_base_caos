@@ -237,6 +237,24 @@ public final class ShutdownThread extends Thread {
     }
 
     /**
+     * Request a clean shutdown, waiting for subsystems to clean up their
+     * state etc.  Must be called from a Looper thread in which its UI
+     * is shown.
+     *
+     * @param context Context used to display the shutdown progress dialog. This must be a context
+     *                suitable for displaying UI (aka Themable).
+     * @param reason code to pass to the kernel (e.g. "recovery", "bootloader", "download"), or null.
+     * @param confirm true if user confirmation is needed before shutting down.
+     */
+    public static void rebootRecovery(final Context context, String reason, boolean confirm) {
+        mReboot = true;
+        mRebootSafeMode = false;
+        mRebootHasProgressBar = false;
+        mReason = reason;
+        shutdownInner(context, confirm);
+    }
+
+    /**
      * Request a reboot into safe mode.  Must be called from a Looper thread in which its UI
      * is shown.
      *
@@ -315,10 +333,9 @@ public final class ShutdownThread extends Thread {
                 pd.setMessage(context.getText(com.android.internal.R.string.shutdown_progress));
                 pd.setIndeterminate(true);
             } else {
-                // Factory reset path. Set the dialog message accordingly.
-                pd.setTitle(context.getText(com.android.internal.R.string.reboot_to_reset_title));
-                pd.setMessage(context.getText(
-                            com.android.internal.R.string.reboot_to_reset_message));
+                // dirty hack, need find a normal variant
+                pd.setTitle(context.getText(com.android.internal.R.string.global_action_recovery));
+                pd.setMessage(context.getText(com.android.internal.R.string.reboot_to_reset_message));
                 pd.setIndeterminate(true);
             }
         } else {

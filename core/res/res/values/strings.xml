@@ -519,6 +519,9 @@
     <!-- TODO: promote to separate string-->
     <string name="global_action_restart" translatable="false">@string/sim_restart_button</string>
 
+    <!-- label for item that restarts phone to recovery in phone options dialog -->
+    <string name="global_action_recovery" translatable="false">Recovery</string>
+
     <!-- label for item that starts emergency call -->
     <string name="global_action_emergency">Emergency</string>
 

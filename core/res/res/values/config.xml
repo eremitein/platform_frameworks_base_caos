@@ -3490,7 +3490,7 @@
     <bool name="config_allowDisablingAssistDisclosure">true</bool>
 
     <!-- True if the device supports system navigation keys. -->
-    <bool name="config_supportSystemNavigationKeys">false</bool>
+    <bool name="config_supportSystemNavigationKeys">true</bool>
 
     <!-- emergency call number for the emergency affordance -->
     <string name="config_emergency_call_number" translatable="false">112</string>
